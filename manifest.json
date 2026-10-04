@@ -1,0 +1,50 @@
+{
+  "id": "commons",
+  "name": "Wikimedia Commons",
+  "version": "0.1.0",
+  "author": "Viboplr",
+  "description": "Freely licensed photos of your artists from Wikimedia Commons: a Photos gallery on artist pages, each picture credited to its photographer with its licence. AI assistants can search Commons too, so Now Playing cue sheets use real photos.",
+  "minAppVersion": "1.0.85",
+  "stability": "experimental",
+  "homepage": "https://github.com/outcast1000/viboplr-commons",
+  "updateUrl": "https://github.com/outcast1000/viboplr-commons/releases/latest/download/update.json",
+  "icon": "M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM21 15l-5-5L5 21",
+  "runtime": "worker",
+  "permissions": ["network:commons.wikimedia.org", "network:www.wikidata.org"],
+  "apiUsage": [
+    { "api": "network.fetch", "reason": "Find an artist's Commons category on Wikidata, then list its photos with credits and licences on Wikimedia Commons" }
+  ],
+  "contributes": {
+    "informationTypes": [
+      {
+        "id": "commons_photos",
+        "name": "Photos",
+        "description": "Freely licensed photos of the artist from Wikimedia Commons, with photographer and licence",
+        "entity": "artist",
+        "displayKind": "image_gallery",
+        "ttl": 2592000
+      }
+    ],
+    "assistant": {
+      "instructions": "Freely licensed images from Wikimedia Commons, every one with its author, licence and file page. search_images is read-only. Prefer `artist` (the artist's own Commons category, found through Wikidata — exact name match, so it does not return a different artist) over free-text `query`, which matches anything with the words in its title (a band named after a town returns the town). Use `category` to drill into a subcategory listed in an earlier answer. Captions come from uploaders and can be wrong or in another language — check them against what you know before repeating them, and set thumbnails=true to get small previews when you need to look. For a cue sheet, get_cue_context already includes this plugin's artist gallery in `images`; search only when you need more. Credit the author when you use an image.",
+      "tools": [
+        {
+          "name": "search_images",
+          "description": "Find freely licensed images on Wikimedia Commons. Give exactly one of: artist (that artist's Commons category via Wikidata — best), category (a Commons category name), or query (free-text search of file titles and descriptions — noisy). Returns images with url (display size, ≤1280px wide), optional thumbUrl, original width/height, description, date, author, license, licenseUrl, credit (a ready-made attribution line) and pageUrl, plus the category's subcategories when listing one. Read-only.",
+          "readOnly": true,
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "artist": { "type": "string", "description": "Artist or band name — resolved to their Commons category through Wikidata" },
+              "category": { "type": "string", "description": "A Commons category, with or without the 'Category:' prefix (e.g. 'Portishead (band)')" },
+              "query": { "type": "string", "description": "Free-text search over Commons file pages" },
+              "minWidth": { "type": "integer", "description": "Skip images narrower than this many pixels (default 800)" },
+              "limit": { "type": "integer", "description": "Most images to return (default 20, max 50)" },
+              "thumbnails": { "type": "boolean", "description": "Also return thumbUrl, a ~330px preview of each image" }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
