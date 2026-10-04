@@ -513,7 +513,7 @@ async function searchImages(args) {
 // ---------------------------------------------------------------------------
 function activate(pluginApi) {
   api = pluginApi;
-  api.informationTypes.onFetch("commons_photos", fetchArtistPhotos);
+  api.informationTypes.onFetch("artist_photos", fetchArtistPhotos);
   if (api.assistant) api.assistant.onTool("search_images", searchImages);
 }
 

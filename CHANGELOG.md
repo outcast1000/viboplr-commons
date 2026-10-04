@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+- The Photos tab's information type is now `artist_photos`, a shared name, so a future artist-photo provider joins the same Photos tab (orderable in Settings → Providers) instead of adding a second one. Photos cached under the old name are fetched again once.
+
 ## 0.1.0
 
 - First release. Freely licensed photos from Wikimedia Commons.

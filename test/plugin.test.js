@@ -36,13 +36,13 @@ function setup(route = portisheadRoute) {
 
 test("registers the Photos info type and the search tool", () => {
   const { host } = setup();
-  assert.equal(typeof host.infoHandlers.commons_photos, "function");
+  assert.equal(typeof host.infoHandlers.artist_photos, "function");
   assert.equal(typeof host.tools.search_images, "function");
 });
 
 test("every request identifies itself and has a timeout", async () => {
   const { host } = setup();
-  await host.infoHandlers.commons_photos({ kind: "artist", name: "Portishead", id: 0 });
+  await host.infoHandlers.artist_photos({ kind: "artist", name: "Portishead", id: 0 });
   assert.ok(host.requests.length > 0);
   for (const r of host.requests) {
     assert.match(r.init.headers["User-Agent"], /^Viboplr-Commons\//);
@@ -53,7 +53,7 @@ test("every request identifies itself and has a timeout", async () => {
 
 test("artist gallery: lead image first, no repeats, only real photos, related subcategory, credited", async () => {
   const { host } = setup();
-  const out = await host.infoHandlers.commons_photos({ kind: "artist", name: "Portishead", id: 0 });
+  const out = await host.infoHandlers.artist_photos({ kind: "artist", name: "Portishead", id: 0 });
   assert.equal(out.status, "ok");
   const titles = out.value.images.map((i) => i.pageUrl.split("/wiki/")[1]);
   assert.deepEqual(titles, [
@@ -75,7 +75,7 @@ test("artist gallery: lead image first, no repeats, only real photos, related su
 
 test("artist gallery: exact name only — a near miss is not_found, not a wrong artist", async () => {
   const { host } = setup();
-  const out = await host.infoHandlers.commons_photos({ kind: "artist", name: "Portis", id: 0 });
+  const out = await host.infoHandlers.artist_photos({ kind: "artist", name: "Portis", id: 0 });
   assert.deepEqual(out, { status: "not_found" });
 });
 
@@ -92,7 +92,7 @@ test("artist gallery: matches across accents and case, and on an alias", async (
   };
   for (const name of ["BJORK", "björk", "Bjork Gudmundsdottir"]) {
     const { host } = setup(route);
-    const out = await host.infoHandlers.commons_photos({ kind: "artist", name, id: 0 });
+    const out = await host.infoHandlers.artist_photos({ kind: "artist", name, id: 0 });
     assert.equal(out.status, "ok", name);
     assert.equal(out.value.images.length, 1, name);
   }
@@ -148,7 +148,7 @@ test("only photos: no PNG/GIF, no logos, covers or charts", async () => {
 
 test("artist gallery: a Wikimedia failure is an error status, not a throw", async () => {
   const { host } = setup(() => ({ status: 503, body: {} }));
-  const out = await host.infoHandlers.commons_photos({ kind: "artist", name: "Portishead", id: 0 });
+  const out = await host.infoHandlers.artist_photos({ kind: "artist", name: "Portishead", id: 0 });
   assert.equal(out.status, "error");
   assert.match(out.message, /503/);
   assert.equal(host.logs[0].level, "error");

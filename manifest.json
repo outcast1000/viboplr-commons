@@ -1,7 +1,7 @@
 {
   "id": "commons",
   "name": "Wikimedia Commons",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "Viboplr",
   "description": "Freely licensed photos of your artists from Wikimedia Commons: a Photos gallery on artist pages, each picture credited to its photographer with its licence. AI assistants can search Commons too, so Now Playing cue sheets use real photos.",
   "minAppVersion": "1.0.85",
@@ -17,7 +17,7 @@
   "contributes": {
     "informationTypes": [
       {
-        "id": "commons_photos",
+        "id": "artist_photos",
         "name": "Photos",
         "description": "Freely licensed photos of the artist from Wikimedia Commons, with photographer and licence",
         "entity": "artist",

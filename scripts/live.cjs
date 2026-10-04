@@ -39,7 +39,7 @@ const api = {
   const started = Date.now();
   let out;
   if (mode === "gallery") {
-    out = await api.informationTypes.handlers.commons_photos({ kind: "artist", name: arg, id: 0 });
+    out = await api.informationTypes.handlers.artist_photos({ kind: "artist", name: arg, id: 0 });
   } else if (mode === "search") {
     out = await api.assistant.tools.search_images(JSON.parse(arg));
   } else {
