@@ -1,5 +1,9 @@
 # Changelog
 
+
+## v0.2.1
+- Releases are now signed with the Viboplr plugin-signing key, so Viboplr allows the permissions this plugin asks for without prompting. No functional changes.
+
 ## 0.2.0
 
 - The Photos tab's information type is now `artist_photos`, a shared name, so a future artist-photo provider joins the same Photos tab (orderable in Settings → Providers) instead of adding a second one. Photos cached under the old name are fetched again once.
